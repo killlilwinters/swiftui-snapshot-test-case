@@ -50,6 +50,8 @@ open class SnapshotTestCase: XCTestCase {
         let vc = UIHostingController(rootView: view)
         withSnapshotTesting(record: recordMode) {
             for device in devices {
+                vc.additionalSafeAreaInsets = device.safeArea
+                
                 if delayForLayout > 0 {
                     assertSnapshot(
                         of: vc,
