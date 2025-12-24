@@ -21,6 +21,17 @@ open class SnapshotTestCase: XCTestCase {
             false
         }
     }()
+    
+    private var currentScreenSize: CGRect? {
+        UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .first?
+            .windowScene?
+            .screen
+            .bounds
+    }
 
     open override class func setUp() {
         let device = UIDevice.current.name
@@ -48,10 +59,12 @@ open class SnapshotTestCase: XCTestCase {
         column: UInt = #column
     ) {
         let vc = UIHostingController(rootView: view)
+        if let currentScreenSize {
+            vc.view.frame = currentScreenSize
+        }
+        
         withSnapshotTesting(record: recordMode) {
             for device in devices {
-                vc.additionalSafeAreaInsets = device.safeArea
-                
                 if delayForLayout > 0 {
                     assertSnapshot(
                         of: vc,
