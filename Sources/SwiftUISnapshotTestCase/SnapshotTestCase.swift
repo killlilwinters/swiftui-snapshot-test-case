@@ -64,14 +64,13 @@ open class SnapshotTestCase: XCTestCase {
         }
         
         withSnapshotTesting(record: recordMode) {
-            for device in devices {
+            for _ in devices {
                 if delayForLayout > 0 {
                     assertSnapshot(
                         of: vc,
                         as: .wait(
                             for: delayForLayout,
                             on: .image(
-                                on: device,
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision
@@ -86,7 +85,6 @@ open class SnapshotTestCase: XCTestCase {
                     assertSnapshot(
                         of: vc,
                         as: .image(
-                            on: device,
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision
